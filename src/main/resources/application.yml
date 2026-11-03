@@ -1,3 +1,18 @@
 spring:
   application:
     name: todo-practice
+
+  datasource:
+    url: jdbc:h2:mem:tododb
+    username: sk
+    password: sk
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    show-sql: true          # 실행되는 SQL을 보여줌
+    properties:
+      hibernate:
+        format_sql: true    # SQL을 읽기 좋게 보여줌
