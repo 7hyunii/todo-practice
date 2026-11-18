@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 // 통합 테스트
 @SpringBootTest
@@ -154,6 +155,52 @@ public class TodoServiceTest {
         todoService.deleteById(todo1.getId());
         // then
         assertThat(todoRepository.existsById(todo1Id)).isFalse();
+    }
+
+    // 실패 Test
+    @DisplayName("findById: 삭제된 할 일 조회 시 예외 처리")
+    @Test
+    void findByIdWithDeletedIdTest() {
+        // given
+        TodoSaveRequest todoSaveRequest = TodoSaveRequest.builder()
+                .title("자바 공부")
+                .description("컬렉션 복습하기")
+                .build();
+
+        Todo todo1 = todoService.save(todoSaveRequest);
+        Long todo1Id = todo1.getId();
+
+        todoService.deleteById(todo1.getId());
+        // when
+        // then
+        assertThatThrownBy(() -> todoService.findById(todo1Id))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("할 일이 없습니다.");
+    }
+
+    @DisplayName("update: 삭제된 할 일 수정 요청 시 예외 처리")
+    @Test
+    void updateWithMissingIdTest() {
+        // given
+        TodoSaveRequest todoSaveRequest = TodoSaveRequest.builder()
+                .title("자바 공부")
+                .description("컬렉션 복습하기")
+                .build();
+
+        Todo todo1 = todoService.save(todoSaveRequest);
+        Long todo1Id = todo1.getId();
+
+        todoService.deleteById(todo1.getId());
+
+        TodoSaveRequest updateRequest = TodoSaveRequest.builder()
+                .title("하네스 엔지니어링 공부")
+                .description("Codex 공식 문서 정리하기")
+                .build();
+        // when
+        // then
+        assertThatThrownBy(() -> todoService.update(todo1Id, updateRequest))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("할 일이 없습니다.");
     }
 
 }
