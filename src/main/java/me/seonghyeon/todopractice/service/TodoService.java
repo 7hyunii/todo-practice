@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.seonghyeon.todopractice.domain.Todo;
 import me.seonghyeon.todopractice.dto.TodoResponse;
 import me.seonghyeon.todopractice.dto.TodoSaveRequest;
+import me.seonghyeon.todopractice.exception.TodoNotFoundException;
 import me.seonghyeon.todopractice.repository.TodoRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -64,7 +65,7 @@ public class TodoService {
 
     private Todo findTodoOrThrow(Long id) {
         return todoRepository.findById(id)  // 해당 ID의 할 일이 없으면 예외 발생
-                .orElseThrow(() -> new IllegalArgumentException("할 일을 찾을 수 없습니다."));
+                .orElseThrow(TodoNotFoundException::new);
     }
 
 }

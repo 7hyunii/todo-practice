@@ -3,6 +3,7 @@ package me.seonghyeon.todopractice.service;
 import me.seonghyeon.todopractice.domain.Todo;
 import me.seonghyeon.todopractice.dto.TodoResponse;
 import me.seonghyeon.todopractice.dto.TodoSaveRequest;
+import me.seonghyeon.todopractice.exception.TodoNotFoundException;
 import me.seonghyeon.todopractice.repository.TodoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -117,7 +118,7 @@ public class TodoServiceTest {
                 .willReturn(Optional.empty());
         // when & then
         assertThatThrownBy(() -> todoService.findById(999L))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(TodoNotFoundException.class)
                 .hasMessage("할 일을 찾을 수 없습니다.");
     }
 
@@ -155,7 +156,7 @@ public class TodoServiceTest {
                 .willReturn(Optional.empty());
         // when & then
         assertThatThrownBy(() -> todoService.update(999L, updateRequest))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(TodoNotFoundException.class)
                 .hasMessage("할 일을 찾을 수 없습니다.");
     }
 
