@@ -14,8 +14,8 @@ import me.seonghyeon.todopractice.domain.Todo;
 @AllArgsConstructor
 public class TodoSaveRequest {
 
-    @NotBlank(message = "제목은 공백이 아닌 1~30자로 입력해야 합니다.")
-    @Size(max = 30, message = "제목은 공백이 아닌 1~30자로 입력해야 합니다.")
+    @NotBlank(message = "제목은 필수입니다.")
+    @Size(max = 30, message = "제목은 1~30자로 입력해야 합니다.")
     private String title;
 
     @Size(max = 1000, message = "설명은 최대 1000자까지 입력할 수 있습니다")
